@@ -100,10 +100,10 @@ def handle_message(event):
         emp_type = data.get("ประเภท", "").strip().lower()
 
         if emp_type == "รายวัน":
-            worksheet = client.open("HR_EmployeeList").worksheet("DailyEmployee")
+            worksheet = client.open("HR_EmployeeListMilkka").worksheet("DailyEmployee")
             default_code = "P"+60000
         elif emp_type == "รายเดือน":
-            worksheet = client.open("HR_EmployeeList").worksheet("MonthlyEmployee")
+            worksheet = client.open("HR_EmployeeListMilkka").worksheet("MonthlyEmployee")
             default_code = 20000
         else:
             line_bot_api.reply_message(
