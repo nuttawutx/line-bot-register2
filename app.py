@@ -102,11 +102,11 @@ def handle_message(event):
         if emp_type == "รายวัน":
             worksheet = client.open("HR_EmployeeListMikka").worksheet("DailyEmployee")
             default_code = 20000
-            prefix = ""
+            prefix = "P"
         elif emp_type == "รายเดือน":
             worksheet = client.open("HR_EmployeeListMikka").worksheet("MonthlyEmployee")
             default_code = 60000
-            prefix = "P"
+            prefix = ""
         else:
             line_bot_api.reply_message(
                 event.reply_token,
