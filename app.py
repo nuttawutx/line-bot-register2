@@ -100,11 +100,13 @@ def handle_message(event):
         emp_type = data.get("ประเภท", "").strip().lower()
 
         if emp_type == "รายวัน":
-            worksheet = client.open("HR_EmployeeListMilkka").worksheet("DailyEmployee")
-            default_code = "P"+60000
+            worksheet = client.open("HR_EmployeeListMikka").worksheet("DailyEmployee")
+            default_code = 60000
+            prefix = "p"
         elif emp_type == "รายเดือน":
-            worksheet = client.open("HR_EmployeeListMilkka").worksheet("MonthlyEmployee")
+            worksheet = client.open("HR_EmployeeListMikka").worksheet("MonthlyEmployee")
             default_code = 20000
+            prefix = ""
         else:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -114,9 +116,15 @@ def handle_message(event):
 
         existing = worksheet.get_all_values()
         last_row = existing[-1] if len(existing) > 1 else []
-        last_code = int(last_row[2]) if len(last_row) >= 3 and last_row[2].isdigit() else default_code
-        new_code = last_code + 1
-        emp_code = str(new_code)
+        # ดึงเลขจากรหัสล่าสุด (เช่น 'P60001' → 60001)
+        if len(last_row) >= 3:
+            raw_code = last_row[2]
+            number_part = int(re.sub(r'\D', '', raw_code)) if raw_code else default_code
+        else:
+            number_part = default_code
+
+        new_code = number_part + 1
+        emp_code = prefix+str(new_code)
 
         tz = pytz.timezone('Asia/Bangkok')
         now = datetime.now(tz).strftime("%d/%m/%Y %H:%M")
