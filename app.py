@@ -104,7 +104,7 @@ def handle_message(event):
             default_code = "P"+60000
         elif emp_type == "รายเดือน":
             worksheet = client.open("HR_EmployeeList").worksheet("MonthlyEmployee")
-            default_code = 60000
+            default_code = 20000
         else:
             line_bot_api.reply_message(
                 event.reply_token,
